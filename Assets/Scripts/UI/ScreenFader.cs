@@ -26,10 +26,11 @@ public class ScreenFader : MonoBehaviour
 
     IEnumerator FadeOutIn()
     {
+        FadeMask.SetActive(true);
         FadeMask.GetComponent<Animation>().Play("FadeOut");
         yield return new WaitForSeconds(1);
         FadeMask.GetComponent<Animation>().Play("FadeIn");
+        FadeMask.SetActive(false);
     }
-
 
 }

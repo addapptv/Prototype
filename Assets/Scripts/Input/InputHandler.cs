@@ -8,11 +8,14 @@ public class InputHandler : MonoBehaviour
     [SerializeField] TopDownController tDMovement;
     [SerializeField] ThirdPersonController tPMovement;
     [SerializeField] CamSwitcher camSwitch;
+    [SerializeField] InventorySystem inventorySystem;
 
     private PlayerControls controls;
     public PlayerControls.MovementActions playerMovement;
     public PlayerControls.CameraActions cameraControl;
     public PlayerControls.InteractActions playerInteract;
+    public PlayerControls.MenusActions menusControl;
+    public PlayerControls.GameActions gameControl;
 
     public Vector2 _moveInput;
     Vector2 _mousePosition;
@@ -26,6 +29,8 @@ public class InputHandler : MonoBehaviour
         playerMovement = controls.Movement;
         cameraControl = controls.Camera;
         playerInteract = controls.Interact;
+        menusControl = controls.Menus;
+        gameControl = controls.Game;
 
         //Movement
         playerMovement.Move.started += ctx => _moveInput = ctx.ReadValue<Vector2>();

@@ -1,70 +1,75 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class Interactor : MonoBehaviour
 {
-
-    //TO DO
-    //1. UI still shows prompt when button pressed - should hide until interactable is moved away from and found again - fix
-
-    public LayerMask _interactableMask;
+    [SerializeField]
+    private LayerMask _interactableMask;
     public GameObject _interactUI;
+    [SerializeField]
+    private Camera _camera;
+    [SerializeField]
+    private InputHandler _inputHandler;
     public TextMeshProUGUI _interactPrompt;
-    private bool isDetected = false;
-    private bool isTriggered = false;
+    private bool _isDetected = false;
     RaycastHit hit;
-    IInteractable interactable;
+    IInteractable _interactable;
+
 
     void Update()
     {
-
-        if (!isTriggered)
-        {
-            DetectInteractable();
-        }
-
-        if (isDetected)
+        DetectInteractable();
+        
+        if (_isDetected)
         {
             InteractWith();
         }
-
     }
 
     void DetectInteractable()
     {
-        var ray45Down = transform.forward - transform.up;
-
-        if (Physics.Raycast(transform.position, ray45Down, out hit, 2, _interactableMask))
+        if (Physics.Raycast(_camera.transform.position, _camera.transform.forward, out hit, 7, _interactableMask))
         {
-            isDetected = true;
-            _interactPrompt.text = hit.collider.GetComponent<IInteractable>().InteractionPrompt.ToString();
-            interactable = hit.collider.GetComponent<IInteractable>();
-            _interactUI.SetActive(true);
+            _interactable = hit.collider.GetComponent<IInteractable>();
+            if (_interactable.IsDetectable)
+            {
+                _isDetected = true;
+                _interactPrompt.text = hit.collider.GetComponent<IInteractable>().InteractionPrompt.ToString();
+                _interactUI.SetActive(true);
+            }
         }
         else
         {
-            isDetected = false;
+            _isDetected = false;
             _interactUI.SetActive(false);
         }
-
     }
 
     void InteractWith()
     {
-        if (interactable != null && GetComponent<InputHandler>().playerInteract.Interact.WasPressedThisFrame())
+        if (_interactable != null && _inputHandler.playerInteract.Interact.WasPressedThisFrame())
         {
-            StartCoroutine(InteractTriggered());
+            _interactUI.SetActive(false);
+            _interactable.Interact(this);
         }
     }
 
-    IEnumerator InteractTriggered()
+    public void CollectItem()
     {
-        isTriggered = true;
-        _interactUI.SetActive(false);
-        interactable.Interact(this);
-        yield return new WaitForSeconds(5f);
-        isTriggered = false;
+        var item = hit.collider.GetComponent<CollectibleItem>();
+        var camp = hit.collider.GetComponent<CampItem>();
+        if (item)
+        {
+            item.targetInventory.AddItem(new Item(item.item));
+            Debug.Log("Item picked up");
+        }
+        else if (camp)
+        {
+            camp.targetInventory.AddItem(new Item(camp.item));
+            Debug.Log("Camp picked up");
+        }
     }
 
 }

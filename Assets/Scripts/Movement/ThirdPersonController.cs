@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ThirdPersonController : MonoBehaviour
 {
+
+    //Note : Lookspeed set here, mouse maxspeed set in CinemachineFreeLook inspector and InventorySystem scripts
+
     [SerializeField]
     CharacterController _controller;
 

@@ -20,7 +20,7 @@ public class CamSwitcher : MonoBehaviour
             StartCoroutine(SwitchToTPControls());
             virtualCam.Priority = 0;
             freeLookCam.Priority = 1;
-            Cursor.visible = false;
+            Cursor.visible = true;
         }
         else
         {

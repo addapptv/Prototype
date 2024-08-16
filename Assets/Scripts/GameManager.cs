@@ -8,10 +8,13 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public bool gameStarted;
 
+    public InputHandler inputHandler;
+
     [Header("UI Elements")]
     public Text energyText;
-    public Text locationText;
 
+    [Header("Inventories")]
+    public InventoryObject backpackInventory;
 
     //Components//
 
@@ -36,13 +39,24 @@ public class GameManager : MonoBehaviour
             UpdateUI();
         }
 
+        if (inputHandler.gameControl.Save.IsPressed())
+        {
+            backpackInventory.SaveInventory();
+            Debug.Log("Backpack saved");
+        }
+        
+        if (inputHandler.gameControl.Load.IsPressed())
+        {
+            backpackInventory.LoadInventory();
+            Debug.Log("Backpack loaded");
+        }
+
     }
 
 
     public void UpdateUI()
     {
        energyText.text = "Energy : " + ((int)playerAttribs.Energy).ToString();
-       locationText.text = "[Unknown Location]";
     }
 
 
@@ -51,5 +65,8 @@ public class GameManager : MonoBehaviour
         energyManager.ResetEnergy();
         energyText.text = "Energy : " + ((int)playerAttribs.Energy).ToString();
     }
+
+
+
 
 }
