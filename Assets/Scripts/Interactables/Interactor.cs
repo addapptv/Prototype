@@ -1,9 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
+using TMPro;
 
 public class Interactor : MonoBehaviour
 {
@@ -13,7 +10,7 @@ public class Interactor : MonoBehaviour
 
     public LayerMask _interactableMask;
     public GameObject _interactUI;
-    public Text _interactText;
+    public TextMeshProUGUI _interactPrompt;
     private bool isDetected = false;
     private bool isTriggered = false;
     RaycastHit hit;
@@ -26,7 +23,7 @@ public class Interactor : MonoBehaviour
         {
             DetectInteractable();
         }
-            
+
         if (isDetected)
         {
             InteractWith();
@@ -41,7 +38,7 @@ public class Interactor : MonoBehaviour
         if (Physics.Raycast(transform.position, ray45Down, out hit, 2, _interactableMask))
         {
             isDetected = true;
-            _interactText.text = hit.collider.GetComponent<IInteractable>().InteractionPrompt.ToString();
+            _interactPrompt.text = hit.collider.GetComponent<IInteractable>().InteractionPrompt.ToString();
             interactable = hit.collider.GetComponent<IInteractable>();
             _interactUI.SetActive(true);
         }

@@ -6,15 +6,14 @@ public class Rest : MonoBehaviour, IInteractable
 {
     [SerializeField]
     private string _prompt;
-    [SerializeField]
-    public SleepSystem _sleepSystem;
+    public RestSystem _restSystem;
 
     public string InteractionPrompt => _prompt;
 
     public bool Interact(Interactor interactor)
     {
         Debug.Log("Rest interacted with");
-        _sleepSystem.StartRest();
+        _restSystem.StartRest();
         return true;
     }
 }

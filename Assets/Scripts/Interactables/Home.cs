@@ -7,14 +7,14 @@ public class Home : MonoBehaviour, IInteractable
     [SerializeField]
     private string _prompt;
     [SerializeField]
-    public SleepSystem _sleepSystem;
+    public RestSystem _restSystem;
 
     public string InteractionPrompt => _prompt;
 
     public bool Interact(Interactor interactor)
     {
         Debug.Log("Home interacted with");
-        _sleepSystem.StartSleep();
+        _restSystem.StartSleep();
         return true;
     }
 

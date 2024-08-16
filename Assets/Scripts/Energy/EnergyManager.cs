@@ -14,15 +14,15 @@ public class EnergyManager : MonoBehaviour
         // Print messages for status @ 20%/10% etc "Huuuuhaaaa... I'm tired", "My eyes are closing, I'm shattered" etc
     
 
-    float currentEnergy = 100.9f;
-    float maxEnergy = 100.9f;
-    float energyMultiplier = 1f;
+    public float currentEnergy = 100.9f;
+    public float maxEnergy = 100.9f;
+    public float energyMultiplier = 1f;
     [SerializeField]
-    float moveBurnRate = 0.5f;
+    readonly float movingBurnRate = 0.5f;
     [SerializeField]
-    float stillBurnRate= 0.05f;
+    readonly float stationaryBurnRate= 0.05f;
     [SerializeField]
-    float restoreEnergyEffect = 0.2f;
+    public float restoreEnergyEffect;
 
     public float Energy
     {
@@ -38,19 +38,19 @@ public class EnergyManager : MonoBehaviour
         }
         else
         {
-            UseEnergyStill();
+            UseEnergyWhenStationary();
         }
 
     }
 
     public void UseEnergyOnMove()
     {
-        currentEnergy -= moveBurnRate * energyMultiplier * Time.deltaTime;
+        currentEnergy -= movingBurnRate * energyMultiplier * Time.deltaTime;
     }
 
-    public void UseEnergyStill()
+    public void UseEnergyWhenStationary()
     {
-        currentEnergy -= stillBurnRate * energyMultiplier * Time.deltaTime;
+        currentEnergy -= stationaryBurnRate * energyMultiplier * Time.deltaTime;
     }
 
     public void RestoreEnergy()

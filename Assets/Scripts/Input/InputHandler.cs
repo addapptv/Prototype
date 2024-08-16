@@ -10,8 +10,8 @@ public class InputHandler : MonoBehaviour
     [SerializeField] CamSwitcher camSwitch;
 
     private PlayerControls controls;
-    PlayerControls.MovementActions playerMovement;
-    PlayerControls.CameraActions cameraControl;
+    public PlayerControls.MovementActions playerMovement;
+    public PlayerControls.CameraActions cameraControl;
     public PlayerControls.InteractActions playerInteract;
 
     public Vector2 _moveInput;
