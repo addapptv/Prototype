@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 1465034547313384383}
   - component: {fileID: 1465034547313384380}
   - component: {fileID: 1465034547313384381}
+  - component: {fileID: 3217733275958075743}
   m_Layer: 6
   m_Name: AppleGraphic
-  m_TagString: Item
+  m_TagString: Mesh
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1465034547313384368}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.335, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.48, y: 0.5, z: 0.48}
   m_Children: []
   m_Father: {fileID: 1465034547590606113}
@@ -81,6 +82,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &3217733275958075743
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465034547313384368}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.1625509
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.08127546, z: 0}
 --- !u!1 &1465034547590606114
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,12 +105,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1465034547590606113}
-  - component: {fileID: 1465034547590606112}
-  - component: {fileID: 8322254291259344475}
   - component: {fileID: 4477141762397820659}
+  - component: {fileID: 2255103260666475786}
+  - component: {fileID: 8697662167676362989}
+  - component: {fileID: -5927053031833167005}
   m_Layer: 6
   m_Name: Apple
-  m_TagString: Untagged
+  m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,35 +133,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1465034547590606112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1465034547590606114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43882b910348c4643a6b2197cd49eea3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: ce5a6543aca994f409c539adb3ea8e92, type: 2}
-  _prompt: Apple
-  targetInventory: {fileID: 11400000, guid: f92f4bb2ebaae6f49a02dfecf640e538, type: 2}
---- !u!136 &8322254291259344475
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1465034547590606114}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.2455997
-  m_Height: 0.60091937
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.37513614, z: 0.0043379515}
 --- !u!54 &4477141762397820659
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -162,6 +149,64 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!135 &2255103260666475786
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465034547590606114}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.4
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8697662167676362989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465034547590606114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d48e6b75c630104e945f3212fe104bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interacted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -5927053031833167005}
+        m_TargetAssemblyTypeName: Collectable, Assembly-CSharp
+        m_MethodName: CollectItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  prompt: 
+  cooloffTime: 0
+  _detectable: 1
+  _triggered: 0
+--- !u!114 &-5927053031833167005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465034547590606114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc261d4f08c4a4d439736ccfc35331e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: ce5a6543aca994f409c539adb3ea8e92, type: 2}
+  targetInventory: {fileID: 0}
 --- !u!1 &2298918235583893381
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +220,7 @@ GameObject:
   - component: {fileID: 2031067286155541468}
   m_Layer: 0
   m_Name: Stalk
-  m_TagString: Untagged
+  m_TagString: Mesh
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -188,7 +233,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2298918235583893381}
   m_LocalRotation: {x: -0, y: -0, z: 0.14363234, w: 0.9896311}
-  m_LocalPosition: {x: -0.022, y: 0.62, z: 0}
+  m_LocalPosition: {x: -0.022, y: 0.28, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_Children: []
   m_Father: {fileID: 1465034547590606113}
@@ -256,7 +301,7 @@ GameObject:
   - component: {fileID: 5229120744095859518}
   m_Layer: 0
   m_Name: Leaf
-  m_TagString: Untagged
+  m_TagString: Mesh
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -269,7 +314,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5673809540983321043}
   m_LocalRotation: {x: -0, y: -0, z: 0.14363234, w: 0.9896311}
-  m_LocalPosition: {x: 0.074, y: 0.607, z: 0}
+  m_LocalPosition: {x: 0.074, y: 0.28, z: 0}
   m_LocalScale: {x: 0.15, y: 0.0005, z: 0.1}
   m_Children: []
   m_Father: {fileID: 1465034547590606113}

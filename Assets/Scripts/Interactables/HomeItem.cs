@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Home : MonoBehaviour, IInteractable
+public class HomeItem : MonoBehaviour, IInteractable
 {
-    public RestSystem _restSystem;
     [SerializeField]
     private string _prompt;
     private bool _detectable = true;
@@ -18,7 +17,7 @@ public class Home : MonoBehaviour, IInteractable
     {
         Debug.Log("Home interacted with");
         StartCoroutine(InteractCooloff());
-        _restSystem.StartSleep();
+        FindObjectOfType<RestSystem>().StartSleep();
         return true;
     }
 

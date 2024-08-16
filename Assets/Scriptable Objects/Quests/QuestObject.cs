@@ -1,45 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public enum QuestType
+[CreateAssetMenu(fileName = "New Quest Object", menuName = "Quest System/Quest", order = 1)]
+
+public class QuestObject : ScriptableObject
 {
-    Reach,
-    Investigate,
-    Collect,
-    Talk,
-    Default
-}
+    [field: SerializeField] public string id { get; private set; }
 
+    [Header("Info")]
 
-public abstract class QuestObject : ScriptableObject
-{
-    public int Id;
-    public string questName;
+    public string displayName;
     public Sprite questIcon;
-    public QuestType type;
-    [TextArea(15, 20)]
-    public string description;
+    [TextArea(5, 10)]
+    public string questDescription;
+    [TextArea(5, 10)]
+    public string startQuestPrompt;
+    [TextArea(5, 10)]
+    public string firstObjective;
+
+    [Header("Requirements")]
+    public QuestObject[] questPrerequisites;
+
+    [Header("Steps")]
+    public GameObject[] questStepPrefabs;
+
+    [Header("Rewards")]
+
     public float progressValue;
-    public float expValue;
+    public float xpValue;
+    public float moneyValue;
 
-    public Quest CreateQuest()
+    // ensure the id is always the name of the Scriptable Object asset
+    private void OnValidate()
     {
-        Quest newQuest = new Quest(this);
-        return newQuest;
+        #if UNITY_EDITOR
+        id = this.name;
+        UnityEditor.EditorUtility.SetDirty(this);
+        #endif
     }
+
 }
 
 
-[System.Serializable]
-public class Quest
-{
-    public int Id;
-    public string questName;
-    public Quest(QuestObject quest)
-    {
-        questName = quest.questName;
-        Id = quest.Id;
 
-    }
-}

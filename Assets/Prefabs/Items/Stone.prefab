@@ -9,12 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3002347895031974689}
-  - component: {fileID: 3002347895031974691}
-  - component: {fileID: 3002347895031974690}
+  - component: {fileID: 2082240257994577044}
   - component: {fileID: 8020020048301745122}
+  - component: {fileID: -8075012598257857836}
+  - component: {fileID: 1500432402392870163}
   m_Layer: 6
   m_Name: Stone
-  m_TagString: Untagged
+  m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,22 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3002347895031974691
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3002347895031974700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43882b910348c4643a6b2197cd49eea3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: b530cf0984ce53d428d81c9a1ab869de, type: 2}
-  _prompt: Stone
-  targetInventory: {fileID: 11400000, guid: f92f4bb2ebaae6f49a02dfecf640e538, type: 2}
---- !u!135 &3002347895031974690
+--- !u!135 &2082240257994577044
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,11 +43,11 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3002347895031974700}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.52526
-  m_Center: {x: 0, y: 0.35597086, z: 0}
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &8020020048301745122
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -78,6 +64,51 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &-8075012598257857836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3002347895031974700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d48e6b75c630104e945f3212fe104bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interacted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1500432402392870163}
+        m_TargetAssemblyTypeName: Collectable, Assembly-CSharp
+        m_MethodName: CollectItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  prompt: 
+  cooloffTime: 0
+  _detectable: 1
+  _triggered: 0
+--- !u!114 &1500432402392870163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3002347895031974700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc261d4f08c4a4d439736ccfc35331e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: b530cf0984ce53d428d81c9a1ab869de, type: 2}
+  targetInventory: {fileID: 0}
 --- !u!1 &3002347895051389945
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,8 +120,9 @@ GameObject:
   - component: {fileID: 3002347895051389944}
   - component: {fileID: 3002347895051389950}
   - component: {fileID: 3002347895051389951}
+  - component: {fileID: 2871666696819597360}
   m_Layer: 6
-  m_Name: StoneGraphic
+  m_Name: StoneMesh
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,3 +191,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &2871666696819597360
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3002347895051389945}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: -0.0000019073486, z: 0}

@@ -5,6 +5,7 @@ using UnityEngine;
 public class SunSystem : MonoBehaviour
 {
     //TO DO
+    // Change sun on change location/rest/save/load or reduced interval not constant update
     // Light intensity season multiplier - lower in winter
     // Add time of day description - Dawn, Morning, Midday, Afternoon, Evening, Dusk, Night
     // Change sun settings based on time of day - color of light vs day phase

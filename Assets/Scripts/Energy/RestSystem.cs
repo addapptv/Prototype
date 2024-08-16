@@ -5,51 +5,79 @@ using UnityEngine;
 public class RestSystem : MonoBehaviour
 {
     //TO DO
+    // Use events to change energy level and invoke screen fade UI
     // Rotate player 180 degs after sleeping in home door 
     // Add partial restore energy based on energymanager
     // Add first person camera view on rest spots - can look around in 180 degree field
+    // Randomise wake hour and minute within % range of wake hour
 
-    public GameObject UI;
+    public GameObject UIManager;
     public TimeSystem timeSystem;
-    public float campEffect = 0.8f;
-    public float restEffect = 0.2f;
-    public float restMins = 30;
-    public float wakeHour = 6;
-    public float wakeMinute = 30;
+    public EnergyManager energyManager;
+    public int wakeHour = 6;
+    public int wakeMinute = 30;
+
+    private void OnEnable()
+    {
+        GameEventsManager.instance.restEvents.OnStartRest += StartRest;
+        GameEventsManager.instance.restEvents.OnStartCamp += StartCamp;
+        GameEventsManager.instance.restEvents.OnStartSleep += StartSleep;
+
+    }
+
+    private void OnDisable()
+    {
+        GameEventsManager.instance.restEvents.OnStartRest -= StartRest;
+        GameEventsManager.instance.restEvents.OnStartCamp -= StartCamp;
+        GameEventsManager.instance.restEvents.OnStartSleep -= StartSleep;
+
+    }
 
     public void StartSleep()
     {
-        UI.GetComponent<ScreenFader>().ScreenFadeOutIn();
+        UIManager.GetComponent<ScreenFader>().ScreenFadeOutIn();
+        DataPersistenceManager.instance.SaveGame();
         StartCoroutine(SleepEffect());
     }
 
-    public void StartCamp()
+    public void StartCamp(float energyRestoreEffect)
     {
-        UI.GetComponent<ScreenFader>().ScreenFadeOutIn();
-        GetComponent<EnergyManager>().restoreEnergyEffect = campEffect;
-        StartCoroutine(SleepEffect());
+        Debug.Log("Camp started");
+        UIManager.GetComponent<ScreenFader>().ScreenFadeOutIn();
+/*        GetComponent<EnergyManager>().restoreEnergyEffect = energyRestoreEffect;*/
+        StartCoroutine(CampEffect(energyRestoreEffect));
     }
 
-    public void StartRest()
+    public void StartRest(int restMins, float energyRestoreEffect)
     {
-        UI.GetComponent<ScreenFader>().ScreenFadeOutIn();
-        GetComponent<EnergyManager>().restoreEnergyEffect = restEffect;
-        StartCoroutine(RestEffect());
+        Debug.Log("Rest started");
+        UIManager.GetComponent<ScreenFader>().ScreenFadeOutIn();
+/*        GetComponent<EnergyManager>().restoreEnergyEffect = energyRestoreEffect;*/
+        StartCoroutine(RestEffect(restMins, energyRestoreEffect));
     }
 
     private IEnumerator SleepEffect()
     {
         yield return new WaitForSeconds(1);
-        GetComponent<EnergyManager>().ResetEnergy();
+        energyManager.ResetEnergy();
         timeSystem.day++;
         timeSystem.hour = wakeHour;
         timeSystem.minute = wakeMinute;
     }
 
-    private IEnumerator RestEffect()
+    private IEnumerator CampEffect(float energyRestoreEffect)
     {
         yield return new WaitForSeconds(1);
-        GetComponent<EnergyManager>().RestoreEnergy();
+        EnergyManager.instance.RestoreEnergy(energyRestoreEffect);
+        timeSystem.day++;
+        timeSystem.hour = wakeHour;
+        timeSystem.minute = wakeMinute;
+    }
+
+    private IEnumerator RestEffect(int restMins, float energyRestoreEffect)
+    {
+        yield return new WaitForSeconds(1);
+        EnergyManager.instance.RestoreEnergy(energyRestoreEffect);
         if ((timeSystem.minute + restMins) >= 60)
         {
             timeSystem.hour++;

@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+
+    //Move into different managers
+    //Move UI Update to UI event and UI manager
+
+
     [HideInInspector]
     public bool gameStarted;
 
@@ -19,12 +24,20 @@ public class GameManager : MonoBehaviour
     //Components//
 
     public PlayerAttribs playerAttribs;
-    EnergyManager energyManager;
 
 
     private void Awake()
     {
         StartGame();
+    }
+    private void OnEnable()
+    {
+        GameEventsManager.instance.saveEvents.OnNewGame += NewGame;
+    }
+
+    private void OnDisable()
+    {
+        GameEventsManager.instance.saveEvents.OnNewGame -= NewGame;
     }
 
     public void StartGame()
@@ -39,31 +52,36 @@ public class GameManager : MonoBehaviour
             UpdateUI();
         }
 
-        if (inputHandler.gameControl.Save.IsPressed())
-        {
-            backpackInventory.SaveInventory();
-            Debug.Log("Backpack saved");
-        }
-        
-        if (inputHandler.gameControl.Load.IsPressed())
-        {
-            backpackInventory.LoadInventory();
-            Debug.Log("Backpack loaded");
-        }
-
     }
 
+    //Replcae with main menu commands//
+    public void NewGame()
+    {
+        Debug.Log("New game started");
+        DataPersistenceManager.instance.NewGame();
+        DataPersistenceManager.instance.SaveGame();
+    }
+
+    public void ContinueGame()
+    {
+        Debug.Log("Game continued - data loaded");
+        DataPersistenceManager.instance.LoadGame();
+    }
+
+/*    public void RestartGame()
+    {
+        NewGame();
+        energyManager.ResetEnergy();
+        energyText.text = "Energy : " + ((int)playerAttribs.energy).ToString();
+    }*/
+
+
+
+    //Replace Update UI this with a method in the to update every second instead of every frame
 
     public void UpdateUI()
     {
-       energyText.text = "Energy : " + ((int)playerAttribs.Energy).ToString();
-    }
-
-
-    public void RestartGame()
-    {
-        energyManager.ResetEnergy();
-        energyText.text = "Energy : " + ((int)playerAttribs.Energy).ToString();
+       energyText.text = "Energy : " + ((int)EnergyManager.instance.currentEnergy).ToString();
     }
 
 

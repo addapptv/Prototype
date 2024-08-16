@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d06d8306680df34ab12fbbea01c22cd, type: 3}
+  m_Name: VisitLogQuest
+  m_EditorClassIdentifier: 
+  <id>k__BackingField: VisitLogQuest
+  displayName: Visit the logs
+  questIcon: {fileID: -2640195610763654411, guid: 88fefa9bf5adc604992b843556cc85d0, type: 3}
+  questDescription: Find two logs
+  startQuestPrompt: Start the Visit Logs quest
+  firstObjective: Find the first log
+  questPrerequisites: []
+  questStepPrefabs:
+  - {fileID: 3795562762894206118, guid: f2c7aae45466a0d48aa9bba863aa6397, type: 3}
+  - {fileID: 8921054213307666360, guid: c24824c89c48d3943aa11ec5069dc649, type: 3}
+  progressValue: 1
+  xpValue: 30
+  moneyValue: 0

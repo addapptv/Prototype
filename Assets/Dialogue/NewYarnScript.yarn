@@ -1,0 +1,19 @@
+﻿title: SceneOne
+tags:
+position: 5,-69
+---
+Max: Hello? Anybody home?
+Max: Helllooo?
+Nana: Hello? Oh Max, it's you!
+Nana: I thought it was someone else but I'm so glad you're here.
+Nana: I've been looking forward to you coming to stay so much.
+Max: Aww Nana, I've missed you too.
+Nana: Go and take your bags up to the attic and I'll get dinner started. Anything you fancy, Max?
+
+->Do you have any of your famous sausages?
+    Nana: Of course! With Nana's creamy mash potato and onion gravy
+    Max: Thanks Nana
+->Whatever's easiest Nana, I don't want to put you out
+    Nana: What about sausages? With Nana's creamy mash potato and onion gravy?
+    Max: Delicious! Thanks Nana
+===

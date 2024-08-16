@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class TimeSystem : MonoBehaviour
+public class TimeSystem : MonoBehaviour, IDataPersistence
 {
     //TO DO
     // Add language based date i.e. "1st November"
@@ -227,4 +227,26 @@ public class TimeSystem : MonoBehaviour
         seasonText.text = season;
     }
 
+    public void LoadData(GameData data)
+    {
+        minute = data.minute;
+        hour = data.hour;
+        day = data.day;
+        second = data.second;
+        month = data.month;
+        year = data.year;
+
+        CalculateDayInYear();
+        CalculateSeason();
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.minute = minute;
+        data.hour = hour;
+        data.day = day;
+        data.second = second;
+        data.month = month;
+        data.year = year;
+    }
 }

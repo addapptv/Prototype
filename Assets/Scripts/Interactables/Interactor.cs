@@ -5,27 +5,33 @@ using UnityEngine.InputSystem;
 
 public class Interactor : MonoBehaviour
 {
-    [SerializeField]
-    private LayerMask _interactableMask;
-    public GameObject _interactUI;
+
     [SerializeField]
     private Camera _camera;
     [SerializeField]
+    private LayerMask _interactableMask;
+
+    //Refactor to send event to UI
+    public GameObject _interactUI;
+
+
+    //Re-factor this InteractWith method to avoid constantly checking if input was pressed - replace with events//
+    [SerializeField]
     private InputHandler _inputHandler;
+
+    //Refactor to send event to UI
+
     public TextMeshProUGUI _interactPrompt;
-    private bool _isDetected = false;
+    private bool _interactableDetected = false;
     RaycastHit hit;
     IInteractable _interactable;
 
 
+    //Add secondary interact (A & B buttons) which change depending on state of interactable//
+
     void Update()
     {
         DetectInteractable();
-        
-        if (_isDetected)
-        {
-            InteractWith();
-        }
     }
 
     void DetectInteractable()
@@ -35,17 +41,25 @@ public class Interactor : MonoBehaviour
             _interactable = hit.collider.GetComponent<IInteractable>();
             if (_interactable.IsDetectable)
             {
-                _isDetected = true;
+                _interactableDetected = true;
                 _interactPrompt.text = hit.collider.GetComponent<IInteractable>().InteractionPrompt.ToString();
                 _interactUI.SetActive(true);
+            }
+            
+            if (_interactableDetected)
+            {
+                InteractWith();
             }
         }
         else
         {
-            _isDetected = false;
+            _interactable = null;
+            _interactableDetected = false;
             _interactUI.SetActive(false);
         }
     }
+
+    //Replace below with input event//
 
     void InteractWith()
     {
@@ -53,22 +67,6 @@ public class Interactor : MonoBehaviour
         {
             _interactUI.SetActive(false);
             _interactable.Interact(this);
-        }
-    }
-
-    public void CollectItem()
-    {
-        var item = hit.collider.GetComponent<CollectibleItem>();
-        var camp = hit.collider.GetComponent<CampItem>();
-        if (item)
-        {
-            item.targetInventory.AddItem(new Item(item.item));
-            Debug.Log("Item picked up");
-        }
-        else if (camp)
-        {
-            camp.targetInventory.AddItem(new Item(camp.item));
-            Debug.Log("Camp picked up");
         }
     }
 

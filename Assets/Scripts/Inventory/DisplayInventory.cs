@@ -7,13 +7,18 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
+
+//TO DO
+// - Fix crashing when dragging empty slots
+// - Fix crash when dragging objects onto player collider
+
+
 public class DisplayInventory : MonoBehaviour
 {
-    public InventorySystem inventorySystem;
-    public InputHandler inputHandler;
-    private MouseItem mouseItem = new MouseItem();
-    private GameObject droppedItemPrefab;
-    public Transform droppedItemParent;
+    private MouseItem _mouseItem = new MouseItem();
+    private GameObject _droppedItemPrefab;
+    private Transform _droppedItemParent;
+    [HideInInspector]
     public bool actionsComplete = true;
 
     public GameObject slotPrefab;
@@ -35,7 +40,7 @@ public class DisplayInventory : MonoBehaviour
     }
     public void CreateSlots()
     {
-        itemsDisplayed = new Dictionary<GameObject, InventorySlot>();
+
         for (int i = 0; i < inventory.Container.Items.Length; i++)
         {
             var obj = Instantiate(slotPrefab, Vector3.zero, Quaternion.identity, transform);
@@ -80,14 +85,14 @@ public class DisplayInventory : MonoBehaviour
     }
     public void OnEnter(GameObject obj)
     {
-        mouseItem.hoverObj = obj;
+        _mouseItem.hoverObj = obj;
         if (itemsDisplayed.ContainsKey(obj))
-            mouseItem.hoverItem = itemsDisplayed[obj];
+            _mouseItem.hoverItem = itemsDisplayed[obj];
     }
     public void OnExit(GameObject obj)
     {
-        mouseItem.hoverObj = null;
-        mouseItem.hoverItem = null;
+        _mouseItem.hoverObj = null;
+        _mouseItem.hoverItem = null;
     }
     public void OnDragStart(GameObject obj)
     {
@@ -101,8 +106,8 @@ public class DisplayInventory : MonoBehaviour
             img.sprite = inventory.database.GetItem[itemsDisplayed[obj].ID].itemIcon;
             img.raycastTarget = false;
         }
-        mouseItem.obj = mouseObject;
-        mouseItem.item = itemsDisplayed[obj];
+        _mouseItem.obj = mouseObject;
+        _mouseItem.item = itemsDisplayed[obj];
         actionsComplete = false;
     }
     public void OnDragEnd(GameObject obj)
@@ -112,41 +117,37 @@ public class DisplayInventory : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
 
-        if (mouseItem.hoverObj)
+        if (_mouseItem.hoverObj)
         {
-            inventory.MoveItem(itemsDisplayed[obj], itemsDisplayed[mouseItem.hoverObj]);
-            Destroy(mouseItem.obj);
-            mouseItem.item = null;
+            inventory.MoveItem(itemsDisplayed[obj], itemsDisplayed[_mouseItem.hoverObj]);
+            Destroy(_mouseItem.obj);
+            _mouseItem.item = null;
+            actionsComplete = true;
+        }
+        else if (Physics.Raycast(ray, out hit, 10))
+        {
+            _droppedItemParent = FindObjectOfType<LocationManager>().GetComponent<LocationManager>().droppedItemParent;
+            _droppedItemPrefab = Instantiate(prefab, Vector3.zero, Quaternion.identity, transform);
+            _droppedItemPrefab.transform.SetParent(_droppedItemParent, false);
+            _droppedItemPrefab.transform.position = hit.point;
+
+            inventory.RemoveItem(itemsDisplayed[obj].item);
+            Destroy(_mouseItem.obj);
+            _mouseItem.item = null;
             actionsComplete = true;
         }
         else
         {
-
-            if (Physics.Raycast(ray, out hit, 10))
-            {
-                droppedItemPrefab = Instantiate(prefab, Vector3.zero, Quaternion.identity, transform);
-                droppedItemPrefab.transform.SetParent(droppedItemParent, false);
-                droppedItemPrefab.transform.position = hit.point;
-
-                inventory.RemoveItem(itemsDisplayed[obj].item);
-                Destroy(mouseItem.obj);
-                mouseItem.item = null;
-                actionsComplete = true;
-            }
-            else
-            {
-                Destroy(mouseItem.obj);
-                mouseItem.item = null;
-                actionsComplete = true;
-            }
+            Destroy(_mouseItem.obj);
+            _mouseItem.item = null;
+            actionsComplete = true;
         }
-
     }
 
     public void OnDrag(GameObject obj)
     {
-        if (mouseItem.obj != null)
-            mouseItem.obj.GetComponent<RectTransform>().position = Mouse.current.position.ReadValue();
+        if (_mouseItem.obj != null)
+            _mouseItem.obj.GetComponent<RectTransform>().position = Mouse.current.position.ReadValue();
     }
     public Vector3 GetPosition(int i)
     {

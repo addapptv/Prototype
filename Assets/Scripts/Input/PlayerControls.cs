@@ -195,6 +195,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InteractAlt"",
+                    ""type"": ""Button"",
+                    ""id"": ""155b5812-ebe3-4f82-be8d-c8ae45a5b176"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -206,6 +215,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""73deff48-0416-42a6-b31a-2d7a3c414fb6"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InteractAlt"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -223,6 +243,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShowQuestList"",
+                    ""type"": ""Button"",
+                    ""id"": ""cd8634ec-b85b-4a68-9a1b-900401ad41e1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -234,6 +263,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ShowBackpack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8cee4e6d-fc90-4a2f-aaf5-49f77ba19f37"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShowQuestList"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -260,6 +300,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NewGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""4c49ab3d-d2f9-4e4e-91b6-b1f9a5ef53c2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -282,6 +331,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Load"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad6a6c23-f580-4676-8e31-ce613385502a"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NewGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -330,13 +390,16 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         // Interact
         m_Interact = asset.FindActionMap("Interact", throwIfNotFound: true);
         m_Interact_Interact = m_Interact.FindAction("Interact", throwIfNotFound: true);
+        m_Interact_InteractAlt = m_Interact.FindAction("InteractAlt", throwIfNotFound: true);
         // Menus
         m_Menus = asset.FindActionMap("Menus", throwIfNotFound: true);
         m_Menus_ShowBackpack = m_Menus.FindAction("ShowBackpack", throwIfNotFound: true);
+        m_Menus_ShowQuestList = m_Menus.FindAction("ShowQuestList", throwIfNotFound: true);
         // Game
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
         m_Game_Save = m_Game.FindAction("Save", throwIfNotFound: true);
         m_Game_Load = m_Game.FindAction("Load", throwIfNotFound: true);
+        m_Game_NewGame = m_Game.FindAction("NewGame", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
@@ -490,11 +553,13 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Interact;
     private IInteractActions m_InteractActionsCallbackInterface;
     private readonly InputAction m_Interact_Interact;
+    private readonly InputAction m_Interact_InteractAlt;
     public struct InteractActions
     {
         private @PlayerControls m_Wrapper;
         public InteractActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Interact => m_Wrapper.m_Interact_Interact;
+        public InputAction @InteractAlt => m_Wrapper.m_Interact_InteractAlt;
         public InputActionMap Get() { return m_Wrapper.m_Interact; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -507,6 +572,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Interact.started -= m_Wrapper.m_InteractActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_InteractActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_InteractActionsCallbackInterface.OnInteract;
+                @InteractAlt.started -= m_Wrapper.m_InteractActionsCallbackInterface.OnInteractAlt;
+                @InteractAlt.performed -= m_Wrapper.m_InteractActionsCallbackInterface.OnInteractAlt;
+                @InteractAlt.canceled -= m_Wrapper.m_InteractActionsCallbackInterface.OnInteractAlt;
             }
             m_Wrapper.m_InteractActionsCallbackInterface = instance;
             if (instance != null)
@@ -514,6 +582,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @InteractAlt.started += instance.OnInteractAlt;
+                @InteractAlt.performed += instance.OnInteractAlt;
+                @InteractAlt.canceled += instance.OnInteractAlt;
             }
         }
     }
@@ -523,11 +594,13 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Menus;
     private IMenusActions m_MenusActionsCallbackInterface;
     private readonly InputAction m_Menus_ShowBackpack;
+    private readonly InputAction m_Menus_ShowQuestList;
     public struct MenusActions
     {
         private @PlayerControls m_Wrapper;
         public MenusActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @ShowBackpack => m_Wrapper.m_Menus_ShowBackpack;
+        public InputAction @ShowQuestList => m_Wrapper.m_Menus_ShowQuestList;
         public InputActionMap Get() { return m_Wrapper.m_Menus; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -540,6 +613,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ShowBackpack.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnShowBackpack;
                 @ShowBackpack.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnShowBackpack;
                 @ShowBackpack.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnShowBackpack;
+                @ShowQuestList.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnShowQuestList;
+                @ShowQuestList.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnShowQuestList;
+                @ShowQuestList.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnShowQuestList;
             }
             m_Wrapper.m_MenusActionsCallbackInterface = instance;
             if (instance != null)
@@ -547,6 +623,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ShowBackpack.started += instance.OnShowBackpack;
                 @ShowBackpack.performed += instance.OnShowBackpack;
                 @ShowBackpack.canceled += instance.OnShowBackpack;
+                @ShowQuestList.started += instance.OnShowQuestList;
+                @ShowQuestList.performed += instance.OnShowQuestList;
+                @ShowQuestList.canceled += instance.OnShowQuestList;
             }
         }
     }
@@ -557,12 +636,14 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IGameActions m_GameActionsCallbackInterface;
     private readonly InputAction m_Game_Save;
     private readonly InputAction m_Game_Load;
+    private readonly InputAction m_Game_NewGame;
     public struct GameActions
     {
         private @PlayerControls m_Wrapper;
         public GameActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Save => m_Wrapper.m_Game_Save;
         public InputAction @Load => m_Wrapper.m_Game_Load;
+        public InputAction @NewGame => m_Wrapper.m_Game_NewGame;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -578,6 +659,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Load.started -= m_Wrapper.m_GameActionsCallbackInterface.OnLoad;
                 @Load.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnLoad;
                 @Load.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnLoad;
+                @NewGame.started -= m_Wrapper.m_GameActionsCallbackInterface.OnNewGame;
+                @NewGame.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnNewGame;
+                @NewGame.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnNewGame;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -588,6 +672,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Load.started += instance.OnLoad;
                 @Load.performed += instance.OnLoad;
                 @Load.canceled += instance.OnLoad;
+                @NewGame.started += instance.OnNewGame;
+                @NewGame.performed += instance.OnNewGame;
+                @NewGame.canceled += instance.OnNewGame;
             }
         }
     }
@@ -639,15 +726,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     public interface IInteractActions
     {
         void OnInteract(InputAction.CallbackContext context);
+        void OnInteractAlt(InputAction.CallbackContext context);
     }
     public interface IMenusActions
     {
         void OnShowBackpack(InputAction.CallbackContext context);
+        void OnShowQuestList(InputAction.CallbackContext context);
     }
     public interface IGameActions
     {
         void OnSave(InputAction.CallbackContext context);
         void OnLoad(InputAction.CallbackContext context);
+        void OnNewGame(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

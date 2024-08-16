@@ -13,6 +13,18 @@ public class CamSwitcher : MonoBehaviour
 
     private bool topDownCamera = true;
 
+    private void OnEnable()
+    {
+        GameEventsManager.instance.inputEvents.OnSwitchCamPressed += SwitchCam;
+
+    }
+
+    private void OnDisable()
+    {
+        GameEventsManager.instance.inputEvents.OnSwitchCamPressed -= SwitchCam;
+
+    }
+
     public void SwitchCam()
     {
         if(topDownCamera)

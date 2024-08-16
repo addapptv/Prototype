@@ -7,7 +7,7 @@ public enum ItemType
     Equipment,
     Food,
     Collectible,
-    Camp,
+    Tent,
     Default
 }
 
@@ -21,7 +21,9 @@ public enum ItemAttribs
 public abstract class ItemObject : ScriptableObject
 {
     public int Id;
+    public string itemName;
     public GameObject itemPrefab;
+    public InventoryObject targetInventory;
     public Sprite itemIcon;
     public ItemType type;
     [TextArea(15,20)]

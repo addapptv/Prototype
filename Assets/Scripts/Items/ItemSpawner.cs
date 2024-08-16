@@ -7,6 +7,9 @@ public class ItemSpawner : MonoBehaviour
     public bool spawnOnAwake;
     public bool spawnOnTrigger;
     private bool wasTriggered = false;
+    [SerializeField]
+    public Transform droppedItemParent; 
+    //spawn item parent not working//
     
     public GameObject[] spawnableObjects;
     public int spawnCount = 10;
@@ -37,7 +40,8 @@ public class ItemSpawner : MonoBehaviour
             int randomIndex = Random.Range(0, spawnableObjects.Length);
             Vector3 randownSpawnRange = new Vector3(Random.Range(-spawnRadius, spawnRadius), spawnHeight, Random.Range(-spawnRadius, spawnRadius));
             Vector3 randomSpawnPosition = transform.position + randownSpawnRange;
-            Instantiate(spawnableObjects[randomIndex], randomSpawnPosition, Quaternion.identity);
+            Instantiate(spawnableObjects[randomIndex], randomSpawnPosition, Quaternion.identity, droppedItemParent);
+            
         }
     }
 

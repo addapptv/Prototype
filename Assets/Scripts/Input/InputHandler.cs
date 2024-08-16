@@ -4,26 +4,36 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
+    //TO DO : Consider remapping to Trevor Mock's style using bools instead of contexts//
+
+
+    public static InputHandler instance { get; private set; }
 
     [SerializeField] TopDownController tDMovement;
     [SerializeField] ThirdPersonController tPMovement;
-    [SerializeField] CamSwitcher camSwitch;
-    [SerializeField] InventorySystem inventorySystem;
 
-    private PlayerControls controls;
+    private static PlayerControls controls;
     public PlayerControls.MovementActions playerMovement;
     public PlayerControls.CameraActions cameraControl;
     public PlayerControls.InteractActions playerInteract;
     public PlayerControls.MenusActions menusControl;
     public PlayerControls.GameActions gameControl;
 
-    public Vector2 _moveInput;
+    private Vector2 _moveInput;
     Vector2 _mousePosition;
     float _freeLookToggle;
 
 
     private void Awake()
     {
+        if (instance != null)
+        {
+                Debug.LogError("Found more than one Input Manager in the scene.");
+        }
+        instance = this;
+
+        //Intialise all controls
+
         controls = new PlayerControls();
 
         playerMovement = controls.Movement;
@@ -32,7 +42,7 @@ public class InputHandler : MonoBehaviour
         menusControl = controls.Menus;
         gameControl = controls.Game;
 
-        //Movement
+        //Movement controls events
         playerMovement.Move.started += ctx => _moveInput = ctx.ReadValue<Vector2>();
         playerMovement.Move.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
         playerMovement.Move.canceled += ctx => _moveInput = ctx.ReadValue<Vector2>();
@@ -41,8 +51,21 @@ public class InputHandler : MonoBehaviour
         cameraControl.FreeLook.canceled += ctx => _freeLookToggle = ctx.ReadValue<float>();
 
         //Camera
-        cameraControl.CameraSwitch.performed += _ => camSwitch.SwitchCam();
+        cameraControl.CameraSwitch.performed += _ => GameEventsManager.instance.inputEvents.SwitchCamPressed();
 
+        //Menus
+        menusControl.ShowBackpack.performed += _ => GameEventsManager.instance.inputEvents.MenuPressed();
+        menusControl.ShowBackpack.canceled += _ => GameEventsManager.instance.inputEvents.MenuPressed();
+
+        menusControl.ShowQuestList.performed += _ => GameEventsManager.instance.inputEvents.MenuPressed();
+        menusControl.ShowQuestList.canceled += _ => GameEventsManager.instance.inputEvents.MenuPressed();
+
+        //Save/Load
+        gameControl.NewGame.performed += _ => GameEventsManager.instance.saveEvents.NewGame();
+
+        gameControl.Save.performed += _ => GameEventsManager.instance.saveEvents.SaveGame();
+        
+        gameControl.Load.performed += _ => GameEventsManager.instance.saveEvents.LoadGame();
     }
 
     private void Update()

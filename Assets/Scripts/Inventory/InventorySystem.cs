@@ -3,23 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class InventorySystem : MonoBehaviour
+public class InventorySystem : MonoBehaviour, IDataPersistence
 {
-    public InventoryObject backpackInventory;
     public InputHandler inputHandler;
+    public InventoryObject backpackInventory;
     public GameObject inventoryScreen;
     public CinemachineFreeLook TPcam;
+    public string backpackSaveData;
 
-
-    private void Update()
+    private void Awake()
     {
-        ShowInventory();
+        backpackSaveData = null;
+    }
+
+    private void OnEnable()
+    {
+        GameEventsManager.instance.inputEvents.OnMenuPressed += ShowInventory;
+
+    }
+
+    private void OnDisable()
+    {
+        GameEventsManager.instance.inputEvents.OnMenuPressed -= ShowInventory;
+
     }
 
     public void ShowInventory()
     {
 
-        if (inputHandler.menusControl.ShowBackpack.IsPressed())
+        if (InputHandler.instance.menusControl.ShowBackpack.IsPressed())
         {
             inventoryScreen.SetActive(true);
             Cursor.visible = true;
@@ -39,8 +51,23 @@ public class InventorySystem : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        //CLEAR INVENTORY AFTER EACH QUIT//
+        
         backpackInventory.Container.Items = new InventorySlot[32];
 
     }
 
+    public void LoadData(GameData data)
+    {
+        backpackSaveData = data.backpackSaveData;
+        JsonUtility.FromJsonOverwrite(backpackSaveData, backpackInventory);
+        Debug.Log("Backpack loaded");
+    }
+
+    public void SaveData(GameData data)
+    {
+        backpackSaveData = JsonUtility.ToJson(backpackInventory, true);
+        data.backpackSaveData = backpackSaveData; 
+        Debug.Log("Backpack saved");
+    }
 }

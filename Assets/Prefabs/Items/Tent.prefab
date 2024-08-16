@@ -13,10 +13,11 @@ GameObject:
   - component: {fileID: 154662361197650991}
   - component: {fileID: 8270467081855163204}
   - component: {fileID: 5454732928794176444}
+  - component: {fileID: 2323838559872025924}
   - component: {fileID: 893010618211415552}
   m_Layer: 6
   m_Name: Tent
-  m_TagString: Untagged
+  m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,6 +115,37 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2323838559872025924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154662361197650984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d48e6b75c630104e945f3212fe104bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interacted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 893010618211415552}
+        m_TargetAssemblyTypeName: Tent, Assembly-CSharp
+        m_MethodName: UseTent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  prompt: 
+  cooloffTime: 0
+  _detectable: 1
+  _triggered: 0
 --- !u!114 &893010618211415552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,9 +158,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2860c09a399a3944acccc2122004e5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: bd22b8d721af10344bd7779c0982aa34, type: 2}
+  item: {fileID: 11400000, guid: accc0df71236c574a988e925b099dd28, type: 2}
   targetInventory: {fileID: 11400000, guid: f92f4bb2ebaae6f49a02dfecf640e538, type: 2}
   _usePrompt: Sleep in tent
   _pickupPrompt: Pack up tent
-  _detectable: 1
-  _triggered: 0
+  energyRestoreEffect: 0.8
+  interactCooloffTime: 0
+  campCooloffTime: 15

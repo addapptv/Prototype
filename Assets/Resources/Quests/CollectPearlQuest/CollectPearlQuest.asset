@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d06d8306680df34ab12fbbea01c22cd, type: 3}
+  m_Name: CollectPearlQuest
+  m_EditorClassIdentifier: 
+  <id>k__BackingField: CollectPearlQuest
+  displayName: The Pearl
+  questIcon: {fileID: 0}
+  questDescription: Collect the pearl and deliver it
+  startQuestPrompt: Start the Pearl quest
+  firstObjective: Collect the pearl from the rock
+  questPrerequisites: []
+  questStepPrefabs:
+  - {fileID: 287568739166846909, guid: a4cfc16f9dca35e43b7c9668fcf5cc20, type: 3}
+  - {fileID: 8272687788813984990, guid: 0f68ba94448667740bda482db87db61c, type: 3}
+  progressValue: 2
+  xpValue: 30
+  moneyValue: 25
